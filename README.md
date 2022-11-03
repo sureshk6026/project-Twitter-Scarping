@@ -27,7 +27,7 @@ df['Date']= pd.to_datetime(df['Date'], errors='coerce')
 df['Date']=df['Date'].dt.strftime('%Y-%m-%d')
 records=json.loads(df.T.to_json()).values()
 da = df.to_dict('records')
-if __name__=="__main__":
+def date(a,b):
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db = client["SureshKumar"]
     collection = db["New collection"]
@@ -36,10 +36,13 @@ if __name__=="__main__":
     mongoImp = collection.insert_many(parsed)
 for each in collection.find():
     print(each)
-b="2022-10-23"
-y=collection.find({'Date': b}, {'Content': 1, '_id': 0}).limit(10)
+query={"Date":{"$in:[a,b]}}
+y=collection.find(query, {'Content': 1, '_id': 0}).limit(10)
 for e in y:
     print(e)
+st.text.input(a=input("enter the start date"))
+st.text.input(b=input("enter the end date"))
+date(a,b)
 st.text_area(print(e))
 st.download_button(doc=e.to_csv())
 st.download_button(db.to_csv())
